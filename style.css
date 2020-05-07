@@ -5,7 +5,8 @@
 }
 
 html {
-    height: 100vh;
+    min-height: 100vh;
+    width: 100vw;
 }
 
 body {
@@ -53,7 +54,7 @@ svg {
 
 .sequencer {
     display: flex;
-    min-height: 100vh;
+    /* min-height: 100vh; */
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -104,7 +105,8 @@ svg {
     color: white;
     border: none;
     cursor: pointer;
-    margin-top: 3rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 select {
@@ -118,6 +120,33 @@ select {
     color: gray;
 }
 
+.tempo {
+    margin: 1.5rem;
+    width: 30%;
+}
+
+.tempo-slider {
+    /* padding: 1rem; */
+    -webkit-appearance: none;
+    margin: 0.5rem 0rem;
+    width: 100%;
+    padding: 0.2rem;
+    position: relative;
+    background: rgb(80, 80, 80);
+    cursor: pointer;
+    border-radius: 1rem;
+}
+
+.tempo p {
+    font-size: 1.3rem;
+    margin: 1rem;
+    text-align: center;
+}
+
+.mute .active {
+    background: red;
+}
+
 @keyframes playTrack {
     from {
         transform: scale(1);
@@ -126,8 +155,4 @@ select {
     to {
         transform: scale(1.2);
     }
-}
-
-.mute .active {
-    background: red;
 }

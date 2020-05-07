@@ -12,7 +12,7 @@ class Drumkit {
         this.bpm = 150;
         this.isPlaying = null;
         this.selects = document.querySelectorAll("select");
-        this.muteBtn = document.querySelectorAll(".mute");
+        this.muteBtns = document.querySelectorAll(".mute");
     }
 
     activePad() {
@@ -28,9 +28,9 @@ class Drumkit {
         activeBars.forEach(bar => {
             // Add animation 
             bar.style.animation = `playTrack 0.3s alternate ease-in-out 2`
-            // Check if pads are active
+            // Check if bar is active
             if (bar.classList.contains('active')) {
-                // Check each sound
+                // Play sound if active
                 if (bar.classList.contains('kick-pad')) {
                     // Play audio from the start
                     this.kickAudio.currentTime = 0;
@@ -52,10 +52,9 @@ class Drumkit {
     start() {
         // Beats per min in millisecond
         const interval = (60 / this.bpm) * 1000;
-        // setInterval gives an id of that interval
-        // Check if it is playing
+        // Check if it is playing. If isPlaying is not null then it is playing sound
         if (this.isPlaying) {
-            // Clear Interval i.e stop playing 
+            // True if sound playing. Clear Interval i.e stop playing 
             clearInterval(this.isPlaying);
             this.isPlaying = null;
         } else {
@@ -66,11 +65,13 @@ class Drumkit {
         }
     }
     updateBtn() {
-        console.log("updateBtn")
+        console.log("Inside updateBtn", this.isPlaying);
         if (!this.isPlaying) {
+            console.log("Inside if statement", this.isPlaying);
             this.playBtn.innerText = "Stop";
             this.playBtn.classList.add("active")
         } else {
+            console.log("Inside else statement", this.isPlaying);
             this.playBtn.innerText = "Play";
             this.playBtn.classList.remove("active")
         }
@@ -92,11 +93,36 @@ class Drumkit {
                 break;
         }
     }
-    // mute(e) {
-    //     const muteIndex = e.target.getAttribute("data-track");
-    //     e.target.classList.toggle("active");
-    //     console.log(muteIndex);
-    // }
+    mute(e) {
+        // Get data-track from the button using target.getAttribute
+        const muteIndex = e.target.getAttribute("data-track");
+        e.target.classList.toggle("active");
+        if (e.target.classList.contains("active")) {
+            switch (muteIndex) {
+                case "0":
+                    this.kickAudio.volume = 0;
+                    break;
+                case "1":
+                    this.snareAudio.volume = 0;
+                    break;
+                case "2":
+                    this.hihatAudio.volume = 0;
+                    break;
+            }
+        } else {
+            switch (muteIndex) {
+                case "0":
+                    this.kickAudio.volume = 1;
+                    break;
+                case "1":
+                    this.snareAudio.volume = 1;
+                    break;
+                case "2":
+                    this.hihatAudio.volume = 1;
+                    break;
+            }
+        }
+    }
 }
 
 const drumkit = new Drumkit();
@@ -123,8 +149,8 @@ drumkit.selects.forEach(select => {
     })
 });
 
-// drumkit.muteBtn.forEach(btn => {
-//     btn.addEventListener('click', function (e) {
-//         drumkit.mute(e);
-//     })
-// })
+drumkit.muteBtns.forEach(btn => {
+    btn.addEventListener('click', function (e) {
+        drumkit.mute(e);
+    })
+})
